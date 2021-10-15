@@ -5,7 +5,7 @@
 ARG BASE_IMAGE=nvcr.io/nvidia/l4t-base:r32.5.0
 FROM ${BASE_IMAGE}
 
-ARG ROS_PKG=ros_base
+ARG ROS_PKG=desktop
 ENV ROS_DISTRO=galactic
 ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
 
@@ -64,6 +64,7 @@ RUN apt-get update && \
 		gazebo9 \
 		gazebo9-common \
 		gazebo9-plugin-base \
+		autoconf \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
@@ -104,11 +105,25 @@ RUN apt-get purge -y '*opencv*' || echo "previous OpenCV installation not found"
     cp -r /usr/include/opencv4 /usr/local/include/opencv4 && \
     cp -r /usr/lib/python3.6/dist-packages/cv2 /usr/local/lib/python3.6/dist-packages/cv2
     
-    
+
+
 # 
 # download/build ROS from source
 #
 RUN mkdir -p ${ROS_ROOT}/src && \
+
+    cd ${ROS_ROOT} && \
+
+    # install sdl2_vendor dependencies
+    wget https://www.libsdl.org/release/SDL2-2.0.14.tar.gz && \
+    tar xf SDL2-2.0.14.tar.gz && \
+    cd SDL2-2.0.14  && \
+    ./autogen.sh && \
+    ./configure && \
+    make -j$(nproc) && \
+    make install && \
+    ldconfig && \
+
     cd ${ROS_ROOT} && \
     
     # https://answers.ros.org/question/325245/minimal-ros2-installation/?answer=325249#post-id-325249
