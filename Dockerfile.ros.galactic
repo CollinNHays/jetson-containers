@@ -123,10 +123,9 @@ RUN mkdir -p ${ROS_ROOT}/src && \
     make -j$(nproc) && \
     make install && \
     ldconfig && \
-
-    cd ${ROS_ROOT} && \
     
     # https://answers.ros.org/question/325245/minimal-ros2-installation/?answer=325249#post-id-325249
+    cd ${ROS_ROOT} && \
     rosinstall_generator --deps --rosdistro ${ROS_DISTRO} ${ROS_PKG} \
 		launch_xml \
 		launch_yaml \
