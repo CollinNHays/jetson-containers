@@ -110,7 +110,6 @@ RUN apt-get purge -y '*opencv*' || echo "previous OpenCV installation not found"
 # download/build ROS from source
 #
 RUN mkdir -p ${ROS_ROOT}/src && \
-
     cd ${ROS_ROOT} && \
 
     # install sdl2_vendor dependencies
