@@ -5,7 +5,7 @@
 ARG BASE_IMAGE=nvcr.io/nvidia/l4t-base:r32.5.0
 FROM ${BASE_IMAGE}
 
-ARG ROS_PKG=desktop
+ARG ROS_PKG=ros_base
 ENV ROS_DISTRO=galactic
 ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
 
@@ -105,8 +105,7 @@ RUN apt-get purge -y '*opencv*' || echo "previous OpenCV installation not found"
     cp -r /usr/include/opencv4 /usr/local/include/opencv4 && \
     cp -r /usr/lib/python3.6/dist-packages/cv2 /usr/local/lib/python3.6/dist-packages/cv2
     
-
-
+    
 # 
 # download/build ROS from source
 #
